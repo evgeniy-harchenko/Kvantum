@@ -4099,7 +4099,7 @@ void Style::drawPrimitive(QStyle::PrimitiveElement element,
       const QStyleOptionSpinBox *opt = qstyleoption_cast<const QStyleOptionSpinBox*>(option);
       // the measure we used in CC_SpinBox at drawComplexControl() (for QML)
       bool verticalIndicators(tspec_.vertical_spin_indicators
-                              || (!widget && opt && opt->frame)
+                              //|| (!widget && opt && opt->frame)
                               // Krita 5.0.0
                               || (widget && (widget->inherits("KisIntParseSpinBox")
                                              || widget->inherits("KisDoubleParseSpinBox"))));
@@ -11196,7 +11196,7 @@ void Style::drawComplexControl(QStyle::ComplexControl control,
         bool isKisSlider1((widget && (widget->inherits("KisIntParseSpinBox")
                                       || widget->inherits("KisDoubleParseSpinBox")))); // Krita 5.0.0
         bool verticalIndicators(tspec_.vertical_spin_indicators
-                                || (!widget && opt->frame)
+                                //|| (!widget && opt->frame)
                                 || isKisSlider1);
         QRect editRect = subControlRect(CC_SpinBox,opt,SC_SpinBoxEditField,widget);
         QLineEdit *le = nullptr;
@@ -14165,7 +14165,7 @@ QSize Style::sizeFromContents(QStyle::ContentsType type,
         else
         {
           /* the measure we used in CC_SpinBox at drawComplexControl() (for QML) */
-          if (tspec_.vertical_spin_indicators || (!widget && opt->frame) || isKisSlider1)
+          if (tspec_.vertical_spin_indicators /*|| (!widget && opt->frame)*/ || isKisSlider1)
             buttonWidth = tspec_.spin_button_width + qMin(fspec.right,3);
           else
             buttonWidth = 2*tspec_.spin_button_width + fspec1.right;
@@ -16013,7 +16013,7 @@ QRect Style::subControlRect(QStyle::ComplexControl control,
       const QStyleOptionSpinBox *opt = qstyleoption_cast<const QStyleOptionSpinBox*>(option);
       // the measure we used in CC_SpinBox at drawComplexControl() (for QML)
       bool verticalIndicators(tspec_.vertical_spin_indicators
-                              || (!widget && opt && opt->frame)
+                              //|| (!widget && opt && opt->frame)
                               // Krita 5.0.0
                               || (widget && (widget->inherits("KisIntParseSpinBox")
                                              || widget->inherits("KisDoubleParseSpinBox"))));
