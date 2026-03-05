@@ -589,12 +589,16 @@ theme_spec ThemeConfig::getCompositeSpec()
         compositing = true;
     }
   }
-  else if (QString::compare(QGuiApplication::platformName(), "wayland", Qt::CaseInsensitive) == 0)
+  else if (QString::compare(QGuiApplication::platformName(), "wayland", Qt::CaseInsensitive) == 0 ||
+    QString::compare(QGuiApplication::platformName(), "wayland-org.kde.kwin.qpa", Qt::CaseInsensitive) == 0
+  )
   {
     /* Wayland is always composited.
        NOTE: Even under Linux, there's at least one situation, where the lack of x11
              doesn't mean Wayland: KWin-Wayland's menus and tooltips are polished
-             when the platform name isn't set to "wayland". */
+             when the platform name isn't set to "wayland".
+             This also applies to KWin's custom Wayland QPA
+             ("wayland-org.kde.kwin.qpa"), used for menus and tooltips. */
     compositing = true;
   }
 #endif
