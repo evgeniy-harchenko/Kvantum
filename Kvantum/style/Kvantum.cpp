@@ -11211,6 +11211,10 @@ void Style::drawComplexControl(QStyle::ComplexControl control,
             editRect.adjust(-3,0,0,0); // see subControlRect() -> CC_SpinBox
             o.state = (o.state & ~QStyle::State_HasFocus); // LibreOffice doesn't allow a correct focused state
           }
+          else if (!widget && opt && opt->frame)
+          {
+            editRect.adjust(-6,0,0,0); // see subControlRect() -> CC_SpinBox
+          }
           o.rect = editRect;
           drawPrimitive(PE_PanelLineEdit,&o,painter,widget);
         }
@@ -14171,8 +14175,8 @@ QSize Style::sizeFromContents(QStyle::ContentsType type,
             buttonWidth = 2*tspec_.spin_button_width + fspec1.right;
         }
         defaultSize = contentsSize + QSize(buttonWidth, 0);
-        if (isLibreoffice_ && widget == nullptr)
-        { // LibreOffice's (vertical) margins are too small
+        if ((isLibreoffice_ && widget == nullptr) || (!widget && opt && opt->frame))
+        { // LibreOffice's (vertical) and QML's margins are too small
           defaultSize += QSize(lspec.left+lspec.right + fspec.left,
                                lspec.top+lspec.bottom + fspec.top+fspec.bottom);
         }
@@ -16089,6 +16093,11 @@ QRect Style::subControlRect(QStyle::ComplexControl control,
              right here but draw it correctly in drawComplexControl() -> CC_SpinBox. */
           if (isLibreoffice_ && widget == nullptr)
             margin = 3;
+          /* After MR: https://invent.kde.org/frameworks/qqc2-desktop-style/-/merge_requests/481
+             QML calculates padding from SC_SpinBoxEditField rect, so we need to
+             add some margin here. */
+          else if (!widget && opt && opt->frame)
+            margin = 6;
           return QRect(x + margin,
                        y,
                        w - (sw + fspec.right) - (verticalIndicators ? 0 : sw) - margin,
