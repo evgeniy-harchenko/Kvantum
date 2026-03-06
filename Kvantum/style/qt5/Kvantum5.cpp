@@ -15953,7 +15953,7 @@ QRect Style::subControlRect(QStyle::ComplexControl control,
             margin = 3;
           return QRect(x + margin,
                        y,
-                       w - (sw + fspec.right) - (verticalIndicators ? 0 : sw),
+                       w - (sw + fspec.right) - (verticalIndicators ? 0 : sw) - margin,
                        h);
         }
         case SC_SpinBoxUp :
